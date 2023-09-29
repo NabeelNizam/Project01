@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Project01 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        //Membuat 
+        //Membuat INPUT
         System.out.print("Masukkan nama perwakilan : ");
         String namaPerwakilan = scanner.nextLine();
         System.out.print("Masukkan nim : ");
