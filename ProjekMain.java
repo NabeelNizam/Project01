@@ -6,10 +6,9 @@ public class ProjekMain {
         //Membuat Fitur Login
         String username,pin;
         System.out.print("==========================================================================================================================================");
-        System.out.print("\n                                     SELAMAT DATANG DI SISTEM RUANG KELAS POLINEMA!!                                                                                                     ");
+        System.out.println("                                    SELAMAT DATANG DI SISTEM RUANG KELAS POLINEMA!!                                                                                                     ");
         System.out.print("==========================================================================================================================================");
-        System.out.println("");
-        System.out.println("Apakah anda warga POLINEMA? (yes/no) : ");
+        System.out.print("\nApakah anda warga POLINEMA? (yes/no) : ");
         String jawaban = scanner.next();
 
         //JIKA JAWABAN YES
@@ -38,21 +37,27 @@ public class ProjekMain {
                 System.out.print("Kapasitas Ruangan Tidak Mencukupi, Silahkan Mencari Ruangan Lain");
             }
 
-            int menitKeluar = waktuMenit + durasi, menitbi;
+            int menitKeluar = waktuMenit + durasi, menitbi,jambi;
             int jam,menit,jamAwal;
             if (menitKeluar >= 60) {
             jamAwal = menitKeluar / 60;
             jam = jamAwal + waktuJam;
             menit = menitKeluar % 60;
-
+            
+            jambi=durasi/60;
             menitbi = durasi % 60;
-            System.out.print("\nAnda menggunakan ruangan selama " + jamAwal + " jam " + menitbi + " menit ");
+            System.out.print("\nAnda menggunakan ruangan selama " + jambi + " jam " + menitbi + " menit ");
             } else {
             jam = waktuJam;
             menit = menitKeluar;
             }
-            System.out.print("\nKalian keluar pukul: " + jam + ":" + menit );
             System.out.print("\nKalian masuk pada pukul: " + waktuJam + ":" + waktuMenit);
+            if (menit==0) {
+                System.out.print("\nKalian keluar pukul: " + jam + ":" + menit + "0");
+            }else{
+                System.out.print("\nKalian keluar pukul: " + jam + ":" + menit);
+            }
+            
             
             //JIKA JAWABAN NO
         } else if (jawaban.equals("no")){
@@ -97,25 +102,27 @@ public class ProjekMain {
             jam = waktuJam;
             menit = menitKeluar;
             } 
-            System.out.print("\nKalian masuk pada pukul: " + waktuJam + ":" + waktuMenit);
-            System.out.print("\nKalian keluar pukul: " + jam + ":" + menit );
+            if (menit==0) {
+                System.out.print("\nKalian keluar pukul: " + jam + ":" + menit + "0");
+            }else{
+                System.out.print("\nKalian keluar pukul: " + jam + ":" + menit);
+            }   
             
         } else{
             System.out.println("Mohon mengisi sesuai opsi yang kami berikan");
         }
 
         //TAHAP VERIFIKASI ULANG
-        
-        // System.out.println("\nMasukan Nama Perwakilan : ");
-        // String nama = scanner.nextLine();
+        System.out.print("\nMasukan Nama Perwakilan : ");
+        String nama = scanner.next();
         System.out.print("Masukkan Nama ruangan : ");
-        String ruangan = scanner.nextLine();
+        String ruangan = scanner.next();
         System.out.print("Masukkan Acara apa yang anda lakukan : ");
-        String keperluan = scanner.nextLine();
+        String keperluan = scanner.next();
         System.out.print("Masukkan waktu masuk anda kembali (Jam:Menit): ");
-        String verifMasuk = scanner.nextLine();
+        String verifMasuk = scanner.next();
         System.out.print("Masukkan waktu keluar anda kembali (Jam:Menit): ");
-        String verifKeluar = scanner.nextLine();
+        String verifKeluar = scanner.next();
 
         System.out.print("\nAtas nama : " + nama);
         System.out.print("\nMenggunakan ruangan : " + ruangan);
