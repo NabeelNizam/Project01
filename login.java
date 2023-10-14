@@ -24,6 +24,6 @@ public class login{
             System.out.println("Mohon mengisi sesuai opsi yang kami berikan");
         }
         
-
+input.close();
     }
 }

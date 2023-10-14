@@ -12,7 +12,9 @@ public class ProjekMain {
         String jawaban = scanner.next();
 
         //JIKA JAWABAN YES
-        if(jawaban.equals("yes")){
+        int attempts = 0, maxattempts=3;
+        while (attempts<maxattempts) {
+            if(jawaban.equals("yes")){
             System.out.print("Masukkan Username (POLINEMA): ");
             username = scanner.next();
             System.out.print("Masukkan PIN (12345): ");
@@ -22,6 +24,8 @@ public class ProjekMain {
                 System.out.println("Selamat Datang Warga POLINEMA :p");
                 } else{
                 System.out.println("Username atau PIN anda salah");
+                attempts++;
+                continue;
                 }
             System.out.print("Masukkan waktu (Jam): ");
             int waktuJam = scanner.nextInt();
@@ -57,6 +61,7 @@ public class ProjekMain {
             }else{
                 System.out.print("\nKalian keluar pukul: " + jam + ":" + menit);
             }
+        
             
             
             //JIKA JAWABAN NO
@@ -70,6 +75,8 @@ public class ProjekMain {
                 System.out.println("Selamat Datang di POLINEMA :p");
                 } else{
                 System.out.println("Username atau PIN anda salah");
+                attempts++;
+                continue;
                 }
 
             System.out.print("Masukkan waktu (Jam): ");
@@ -111,8 +118,12 @@ public class ProjekMain {
         } else{
             System.out.println("Mohon mengisi sesuai opsi yang kami berikan");
         }
+    } if(attempts>=maxattempts){
+        System.out.println("Maaf anda terlalu banyak mencoba, tunggu beberapa saat dan coba lagi");
+        System.exit(1);
 
         //TAHAP VERIFIKASI ULANG
+        }else{
         System.out.print("\nMasukan Nama Perwakilan : ");
         String nama = scanner.next();
         System.out.print("Masukkan Nama ruangan : ");
@@ -131,7 +142,9 @@ public class ProjekMain {
         System.out.print("\nDan akan keluar pada pukul : " + verifKeluar);
         System.out.print("\nSelamat menikmati ruangan :) ");
         
-scanner.close();
-        
+   
+        scanner.close();
+        } 
     }
+    
 }

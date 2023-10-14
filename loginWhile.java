@@ -26,5 +26,6 @@ public class loginWhile{
         if (percobaan == percobaanMax) {
             System.out.println("Anda sudah mencoba 3 kali. Sistem berhenti.");
         }
+        input.close();
     }
 }
