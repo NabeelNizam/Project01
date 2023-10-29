@@ -5,13 +5,72 @@ public class ProjekMain {
         Scanner scanner = new Scanner(System.in);
         //Membuat Fitur Login
         String username,pin;
-        System.out.print("==========================================================================================================================================");
+        System.out.println("==========================================================================================================================================");
         System.out.println("                                    SELAMAT DATANG DI SISTEM RUANG KELAS POLINEMA!!                                                                                                     ");
         System.out.print("==========================================================================================================================================");
-        System.out.print("\nApakah anda warga POLINEMA? (yes/no) : ");
+        System.out.print("\nApakah anda warga POLINEMA? (yes/no)");
+        System.out.print("\nAtau mungkin anda hanya mau reservasi? (Res) :");
         String jawaban = scanner.next();
 
+        //MENU RESERVASI
+         if (jawaban.equals("Res")) {
+            
+        int kapasitas = 10; // Misalnya, kapasitas maksimum 10 reservasi
+        String[] pemesan = new String[kapasitas];
+        String[] tanggal = new String[kapasitas];
+        String[] ruangKelas = new String[kapasitas];
+        int jumlahReservasi = 0;
+        scanner.close();
+
+        while (true) {
+            System.out.println("Pilih tindakan:");
+            System.out.println("1. Tambah Reservasi");
+            System.out.println("2. Lihat Reservasi");
+            System.out.println("3. Keluar");
+
+            int pilihan = scanner.nextInt();
+            scanner.nextLine(); 
+
+            switch (pilihan) {
+                case 1:
+                    if (jumlahReservasi < kapasitas) {
+                        System.out.print("Masukkan nama pemesan: ");
+                        pemesan[jumlahReservasi] = scanner.nextLine();
+                        System.out.print("Masukkan tanggal (contoh: 2023-11-01): ");
+                        tanggal[jumlahReservasi] = scanner.nextLine();
+                        System.out.print("Masukkan ruang kelas: ");
+                        ruangKelas[jumlahReservasi] = scanner.nextLine();
+                        jumlahReservasi++;
+                        System.out.println("Reservasi berhasil ditambahkan.");
+                    } else {
+                        System.out.println("Kapasitas reservasi penuh.");
+                    }
+                    break;
+
+                case 2:
+                    if (jumlahReservasi > 0) {
+                        System.out.println("Daftar Reservasi:");
+                        for (int i = 0; i < jumlahReservasi; i++) {
+                            System.out.println("Pemesan: " + pemesan[i] + ", Tanggal: " + tanggal[i] + ", Ruang Kelas: " + ruangKelas[i]);
+                        }
+                    } else {
+                        System.out.println("Tidak ada reservasi.");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Terima kasih! Sampai jumpa!");
+                    System.exit(0);
+
+                default:
+                    System.out.println("Pilihan tidak valid.");
+                    break;
+            }
+        }
+         }
+       
         //JIKA JAWABAN YES
+        
         int attempts = 0, maxattempts=3;
         while (attempts<maxattempts) {
             if(jawaban.equals("yes")){
@@ -61,7 +120,7 @@ public class ProjekMain {
             }else{
                 System.out.print("\nKalian keluar pukul: " + jam + ":" + menit);
             }
-        
+            break;
             
             
             //JIKA JAWABAN NO
@@ -117,10 +176,11 @@ public class ProjekMain {
             
         } else{
             System.out.println("Mohon mengisi sesuai opsi yang kami berikan");
+            System.exit(0);;
         }
+        break;
     } if(attempts>=maxattempts){
         System.out.println("Maaf anda terlalu banyak mencoba, tunggu beberapa saat dan coba lagi");
-        System.exit(1);
 
         //TAHAP VERIFIKASI ULANG
         }else{
