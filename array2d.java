@@ -4,8 +4,6 @@ public class array2d {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
     
-
-
         // Membuat Fitur Login
         String username, pin;
         System.out.print("==========================================================================================================================================");
