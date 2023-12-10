@@ -20,7 +20,7 @@ public class ProjekMain {
         String[] tanggal = new String[kapasitas];
         String[] ruangKelas = new String[kapasitas];
         int jumlahReservasi = 0;
-        scanner.close();
+        
 
         while (true) {
             System.out.println("Pilih tindakan:");
