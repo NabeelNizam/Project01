@@ -13,7 +13,7 @@ public class ProjectFungsi {
         
         login(sc, jawaban, hasil);
         
-        verifRuangan(hasil[0], hasil[1]);
+        verifRuangan(hasil[0], hasil[1], hasil);
         
         System.out.print("Masukkan waktu (Jam): ");
         int waktuJam = sc.nextInt();
@@ -27,8 +27,8 @@ public class ProjectFungsi {
         verifUlang(hasil);
     }
 
-    public static boolean login(Scanner sc, String jawaban, String[] hasil) {
-        String username, pin;
+    public static boolean login(Scanner sc, String jawaban, String[] hasil ) {
+        String username, pin,nama,ruangan;
         if (jawaban.equalsIgnoreCase("yes")) {
             System.out.print("Masukkan username (POLINEMA): ");
             username = sc.next();
@@ -36,8 +36,13 @@ public class ProjectFungsi {
             pin = sc.next();
 
             if (username.equals("POLINEMA") && pin.equals("12345")) {
-                hasil[0] = username;
-                hasil[1] = pin;
+                System.out.println();
+                System.out.print("Masukan Nama Perwakilan : ");
+                nama = sc.next();
+                System.out.print("Masukkan Nama ruangan : ");
+                ruangan = sc.next();
+                hasil[0] = nama;
+                hasil[1] = ruangan;
                 return true;
             } else {
                 System.exit(0);
@@ -50,10 +55,13 @@ public class ProjectFungsi {
             System.out.print("Masukkan PIN (4567): ");
             pin = sc.next();
             if (username.equals("GUEST") && pin.equals("4567")) {
-                System.out.println("Selamat Datang di POLINEMA :p");
-                // Update the values in the hasil array
-                hasil[0] = username;
-                hasil[1] = pin;
+                System.out.println("Selamat Datang di POLINEMA :p");    
+                System.out.print("Masukan Nama Perwakilan : ");
+                nama = sc.next();
+                System.out.print("Masukkan Nama ruangan : ");
+                ruangan = sc.next();
+                hasil[0] = nama;
+                hasil[1] = ruangan;  
                 return true;
             } else {
                 System.exit(0);
@@ -173,14 +181,9 @@ public class ProjectFungsi {
         return 0;
     }
 
-    public static void verifRuangan(String nama, String ruangan) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println();
-        System.out.print("Masukan Nama Perwakilan : ");
-        nama = scanner.next();
-        System.out.print("Masukkan Nama ruangan : ");
-        ruangan = scanner.next();
+    public static void verifRuangan(String nama, String ruangan, String[] hasil) {
         rekomendasiRuangan(ruangan);
+        
     }
 
     public static void verifUlang(String[] hasil) {
