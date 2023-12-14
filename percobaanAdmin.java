@@ -74,8 +74,8 @@ public class percobaanAdmin {
                 ruangan = sc.next();
                 hasil[0] = nama;
                 hasil[1] = ruangan;
-                rekomendasiRuangan(ruangan, hasil); 
-                pengisianWaktu(jawaban); 
+                pengisianWaktu(jawaban);
+                rekomendasiRuangan(ruangan, hasil);
                 return true;
             } 
         }
@@ -99,6 +99,7 @@ public class percobaanAdmin {
                 System.out.println("1. Tambah Reservasi");
                 System.out.println("2. Lihat Reservasi");
                 System.out.println("3. Keluar");
+                System.out.println("--------------------");
     
                 int pilihan = sc.nextInt();
                 sc.nextLine(); 
@@ -108,7 +109,7 @@ public class percobaanAdmin {
                         if (jumlahReservasi < kapasitas) {
                             System.out.print("Masukkan nama pemesan: ");
                             pemesan[jumlahReservasi] = sc.nextLine();
-                            System.out.print("Masukkan tanggal (contoh: 2023-11-01): ");
+                            System.out.print("Masukkan tanggal (Hari-Bulan-Tahun, contoh: 24-02-2023): ");
                             tanggal[jumlahReservasi] = sc.nextLine();
                             System.out.print("Masukkan ruang kelas: ");
                             ruangKelas[jumlahReservasi] = sc.nextLine();
@@ -128,6 +129,7 @@ public class percobaanAdmin {
                         } else {
                             System.out.println("Tidak ada reservasi.");
                         }
+                        System.out.println();
                         break;
     
                     case 3:
@@ -192,7 +194,12 @@ public class percobaanAdmin {
             } else {
             jam = waktuJam;
             menit = menitKeluar;
-            } 
+            }
+            if(waktuMenit==0){
+                System.out.print("\nKalian masuk pada pukul: " + waktuJam + ":" + waktuMenit+"0");
+            }else{
+                System.out.print("\nKalian masuk pada pukul: " + waktuJam + ":" + waktuMenit);
+            }
             if (menit==0) {
                 System.out.print("\nKalian keluar pukul: " + jam + ":" + menit + "0");
             }else{
@@ -234,13 +241,14 @@ public class percobaanAdmin {
 
 
     public static String[] rekomendasiRuangan(String ruangan, String[] hasil) {
+        Scanner sc = new Scanner(System.in);
         String[] ruanganPengganti = new String[20];
         String[] ruanganTerpakai = new String [20];
-
     
         int indexRuangan = -1; // Menandai jika ruangan tidak ditemukan
         for (int i = 0; i < ruanganTerpakai.length; i++) {
-            if (ruangan.equals(ruanganTerpakai[i])) {
+            String cekRuanganTerpakai = ruanganTerpakai[i];
+            if (ruangan.equals(cekRuanganTerpakai)) {
                 System.out.print("\nRuangan sedang dipakai");
                 System.out.print("\nKami pindahkan ke ruangan " + ruanganPengganti[i] + " sebagai ruangan pengganti");
                 System.out.println();
@@ -248,7 +256,6 @@ public class percobaanAdmin {
                 break;
             }
         }mencetakStruk(hasil, indexRuangan, ruanganPengganti);
-    
         if (indexRuangan != -1) {
             ruanganPengganti[indexRuangan] = "Ruangan pengganti yang baru"; // Ganti dengan logika yang sesuai
             mencetakStruk(hasil, indexRuangan, ruanganPengganti);
@@ -267,7 +274,8 @@ public class percobaanAdmin {
             System.out.println("\n-- Admin Menu --");
             System.out.println("1. Set Ruangan Terpakai");
             System.out.println("2. Set Ruangan Pengganti");
-            System.out.println("3. Kembali ke Menu Login/Keluar Aplikasi");
+            System.out.println("3. Daftar Riwayat");
+            System.out.println("4. Kembali ke Menu Login/Keluar Aplikasi ");
             System.out.println("------------------------------");
             int adminChoice = scanner.nextInt();
             scanner.nextLine();
@@ -290,7 +298,7 @@ public class percobaanAdmin {
                                 System.out.println("Ruangan " + ruanganTerpakaiBaru + " telah ditandai sebagai terpakai.");
     
                                 // Memanggil rekomendasiRuangan untuk memperbarui ruanganPengganti
-                                ruanganPengganti = rekomendasiRuangan(ruanganTerpakaiBaru, hasil);
+                                //pemindahanRuangan(ruanganPengganti, ruanganTerpakai, ruanganTerpakaiBaru, hasil);
                                 break;
                             }
                         }
@@ -321,8 +329,10 @@ public class percobaanAdmin {
                         System.out.println("Ruangan sudah ada dalam daftar ruangan pengganti sebelumnya.");
                     }
                     break;
-    
                 case 3:
+
+                    break;
+                case 4:
                     System.out.println("Mau yang mana? (login/exit)");
                     Scanner input = new Scanner(System.in);
                     String answer = input.next();
@@ -343,4 +353,19 @@ public class percobaanAdmin {
     
         scanner.close();
     }
+    /* 
+    public static void pemindahanRuangan(String[] ruanganPengganti, String[] ruanganTerpakai, String ruangan, String []hasil){
+        for (int i = 0; i < ruanganTerpakai.length; i++) {
+            String cekRuanganTerpakai = ruanganTerpakai[i];
+            if (ruangan.equals(cekRuanganTerpakai)) {
+                System.out.print("\nRuangan sedang dipakai");
+                System.out.print("\nKami pindahkan ke ruangan " + ruanganPengganti[i] + " sebagai ruangan pengganti");
+                System.out.println();
+                break;
+            }else{
+                System.out.println("OI");
+            }
+        }rekomendasiRuangan(ruangan, hasil);
+    }
+    */
 }
