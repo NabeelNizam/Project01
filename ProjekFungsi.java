@@ -120,7 +120,7 @@ public class ProjekFungsi {
                         break;
                     }
              }
-        }else{
+       }else{
         System.out.println("Masukkan sesuai input");
         return false;
         } 

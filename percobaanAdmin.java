@@ -35,11 +35,7 @@ public class percobaanAdmin {
             System.out.print("Masukkan PIN (POLINEMA): ");
             pin = sc.next();
             if (username.equals("admin")&& pin.equals("POLINEMA")) {
-                adminFunction(hasil, hasil);
-                break;
-            }else{
-                System.out.print("Username atau Pin anda salah");
-                System.out.println();
+                adminFunction(hasil, hasil, hasil);
                 break;
             }
         }
@@ -61,10 +57,7 @@ public class percobaanAdmin {
                 pengisianWaktu(jawaban);
                 rekomendasiRuangan(ruangan, hasil);
                 return true;
-            } else {
-                System.exit(0);
-                return false;
-            }
+            } 
         } else 
         
         if (jawaban.equalsIgnoreCase("no")) {
@@ -84,15 +77,13 @@ public class percobaanAdmin {
                 rekomendasiRuangan(ruangan, hasil); 
                 pengisianWaktu(jawaban); 
                 return true;
-            } else {
-                System.exit(0);
-                return false;
-            }
+            } 
         }
         attempts++;
-    }if (attempts>=maxattempts) {
+        if (attempts>=maxattempts) {
 
-        System.exit(0);
+        break;
+    }
     }
 
             if (jawaban.equalsIgnoreCase("Res")) {
@@ -148,9 +139,13 @@ public class percobaanAdmin {
                         break;
                     }
              }
-        }else{
-        return false;
-        } 
+             
+            }
+            else{
+                System.out.println("Masukkan sesuai input");
+                return false;
+                } 
+                
     }
 
 
@@ -239,8 +234,9 @@ public class percobaanAdmin {
 
 
     public static String[] rekomendasiRuangan(String ruangan, String[] hasil) {
-        String[] ruanganPengganti = {"LSI1", "LSI2", "LSI3", "RT04", "RT05", "RT06"};
-        String[] ruanganTerpakai = {"RT01", "RT02", "RT03", "LPY1", "LPY2", "LPY3"};
+        String[] ruanganPengganti = new String[20];
+        String[] ruanganTerpakai = new String [20];
+
     
         int indexRuangan = -1; // Menandai jika ruangan tidak ditemukan
         for (int i = 0; i < ruanganTerpakai.length; i++) {
@@ -253,15 +249,17 @@ public class percobaanAdmin {
             }
         }mencetakStruk(hasil, indexRuangan, ruanganPengganti);
     
-        if (indexRuangan == -1) {
-            mencetakStruk(hasil, indexRuangan, ruanganPengganti); 
+        if (indexRuangan != -1) {
+            ruanganPengganti[indexRuangan] = "Ruangan pengganti yang baru"; // Ganti dengan logika yang sesuai
+            mencetakStruk(hasil, indexRuangan, ruanganPengganti);
+        } else {
+            mencetakStruk(hasil, indexRuangan, ruanganPengganti);
         }
     
         return ruanganPengganti;
     }
 
-
-    public static void adminFunction(String[] ruanganPengganti, String[] ruanganTerpakai) {
+    public static void adminFunction(String[] ruanganPengganti, String[] ruanganTerpakai, String[] hasil) {
         Scanner scanner = new Scanner(System.in);
         boolean returnToMain = true;
     
@@ -290,6 +288,9 @@ public class percobaanAdmin {
                             if (ruanganTerpakai[i] == null) {
                                 ruanganTerpakai[i] = ruanganTerpakaiBaru;
                                 System.out.println("Ruangan " + ruanganTerpakaiBaru + " telah ditandai sebagai terpakai.");
+    
+                                // Memanggil rekomendasiRuangan untuk memperbarui ruanganPengganti
+                                ruanganPengganti = rekomendasiRuangan(ruanganTerpakaiBaru, hasil);
                                 break;
                             }
                         }
