@@ -237,7 +237,7 @@ public class percobaanAdmin {
         sc.close();
         System.exit(0);
     }
-
+    }
 
     public static String[] rekomendasiRuangan(String ruangan, String[] hasil) {
         String[] ruanganPengganti = new String[20];
@@ -252,13 +252,13 @@ public class percobaanAdmin {
                 indexRuangan = i; 
                 break;
             }
-        }mencetakStruk(hasil, indexRuangan, ruanganPengganti);
+        }mencetakStruk(hasil, indexRuangan, ruanganPengganti, indexRuangan, ruangan);
     
         if (indexRuangan != -1) {
             ruanganPengganti[indexRuangan] = "Ruangan pengganti yang baru"; // Ganti dengan logika yang sesuai
-            mencetakStruk(hasil, indexRuangan, ruanganPengganti);
+            mencetakStruk(hasil, indexRuangan, ruanganPengganti, indexRuangan, ruangan);
         } else {
-            mencetakStruk(hasil, indexRuangan, ruanganPengganti);
+            mencetakStruk(hasil, indexRuangan, ruanganPengganti, indexRuangan, ruangan);
         }
     
         return ruanganPengganti;
