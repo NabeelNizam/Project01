@@ -2,18 +2,25 @@ import java.util.Scanner;
 public class ProjectAdmin {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\nApakah anda warga POLINEMA? (yes/no/admin)");
-        System.out.print("Atau mungkin anda hanya mau reservasi? (Res) :");
-        String jawaban = sc.next();
-
+        
         String[] hasil = new String[2];
-
-        boolean loggedIn = login(sc, jawaban, hasil);
-        if (loggedIn) {
-            pengisianWaktu(jawaban);
-            rekomendasiRuangan(jawaban, hasil);
-            mencetakStruk(hasil);
+        String[][] daftarTransaksi = new String[10][5];
+        String[] ruanganPengganti = new String[20];
+        String[] ruanganTerpakai = new String [20];
+        
+        int counter = 0;
+        while (counter<=10) {
+        System.out.println("\nApakah anda warga POLINEMA? (yes/no/admin)");
+        System.out.print("Atau mungkin anda hanya mau reservasi? (Res)");
+        System.out.print("\nJika ingin keluar dari program ketik (x) : ");
+        String jawaban = sc.next();
+        login(sc, jawaban, hasil, 0);
+            
+        counter++;
         }
+
+        
+        
     }
 
     public static void pengisianWaktu(String jawaban){
@@ -28,7 +35,7 @@ public class ProjectAdmin {
         perhitunganWaktu(waktuJam, waktuMenit, durasi, jawaban);
     }
 
-    public static boolean login(Scanner sc, String jawaban, String[] hasil ) {
+    public static boolean login(Scanner sc, String jawaban, String[] hasil,int biaya ) {
         String username, pin,nama,ruangan;
         int attempts = 0, maxattempts=3;
     while (attempts<maxattempts) {
@@ -39,11 +46,7 @@ public class ProjectAdmin {
             System.out.print("Masukkan PIN (POLINEMA): ");
             pin = sc.next();
             if (username.equals("admin")&& pin.equals("POLINEMA")) {
-                adminFunction(hasil, hasil);
-                break;
-            }else{
-                System.out.print("Username atau Pin anda salah");
-                System.out.println();
+                adminFunction(hasil, hasil, hasil, maxattempts, null, sc);
                 break;
             }
         }
@@ -62,11 +65,10 @@ public class ProjectAdmin {
                 ruangan = sc.next();
                 hasil[0] = nama;
                 hasil[1] = ruangan;
+                pengisianWaktu(jawaban);
+                rekomendasiRuangan(ruangan, hasil, biaya, jawaban, hasil, hasil, ruangan);
                 return true;
-            } else {
-                System.exit(0);
-                return false;
-            }
+            } 
         } else 
         
         if (jawaban.equalsIgnoreCase("no")) {
@@ -82,17 +84,17 @@ public class ProjectAdmin {
                 System.out.print("Masukkan Nama ruangan : ");
                 ruangan = sc.next();
                 hasil[0] = nama;
-                hasil[1] = ruangan;  
+                hasil[1] = ruangan;
+                pengisianWaktu(jawaban);
+                rekomendasiRuangan(ruangan, hasil, biaya, jawaban, hasil, hasil, ruangan);
                 return true;
-            } else {
-                System.exit(0);
-                return false;
-            }
+            } 
         }
         attempts++;
-    }if (attempts>=maxattempts) {
+        if (attempts>=maxattempts) {
 
-        System.exit(0);
+        break;
+    }
     }
 
             if (jawaban.equalsIgnoreCase("Res")) {
@@ -108,6 +110,7 @@ public class ProjectAdmin {
                 System.out.println("1. Tambah Reservasi");
                 System.out.println("2. Lihat Reservasi");
                 System.out.println("3. Keluar");
+                System.out.println("--------------------");
     
                 int pilihan = sc.nextInt();
                 sc.nextLine(); 
@@ -117,7 +120,7 @@ public class ProjectAdmin {
                         if (jumlahReservasi < kapasitas) {
                             System.out.print("Masukkan nama pemesan: ");
                             pemesan[jumlahReservasi] = sc.nextLine();
-                            System.out.print("Masukkan tanggal (contoh: 2023-11-01): ");
+                            System.out.print("Masukkan tanggal (Hari-Bulan-Tahun, contoh: 24-02-2023): ");
                             tanggal[jumlahReservasi] = sc.nextLine();
                             System.out.print("Masukkan ruang kelas: ");
                             ruangKelas[jumlahReservasi] = sc.nextLine();
@@ -137,6 +140,7 @@ public class ProjectAdmin {
                         } else {
                             System.out.println("Tidak ada reservasi.");
                         }
+                        System.out.println();
                         break;
     
                     case 3:
@@ -148,13 +152,21 @@ public class ProjectAdmin {
                         break;
                     }
              }
-        }else{
-        return false;
-        } 
+             
+            }
+            else if (jawaban.equalsIgnoreCase("x")) {
+            System.exit(0);
+            }else {
+                System.out.println("Masukkan sesuai input");
+                return false;
+                }
+            return false; 
+                
     }
 
 
     public static int perhitunganWaktu(int waktuJam, int waktuMenit, int durasi, String jawaban) {
+        int biaya = 0;
         if (jawaban.equalsIgnoreCase("yes")) {
             int menitKeluar = waktuMenit + durasi, menitbi,jambi;
             int jam,menit,jamAwal;
@@ -183,12 +195,12 @@ public class ProjectAdmin {
             }
         } else if (jawaban.equalsIgnoreCase("no")) {
             int menitKeluar = waktuMenit + durasi, menitbi,jambi;
-            int jam,menit,jamAwal, biaya;
+            int jam,menit,jamAwal;
             if (menitKeluar >= 60) {
             jamAwal = menitKeluar / 60;
             jam = jamAwal + waktuJam;
             menit = menitKeluar % 60;
-
+            
             menitbi = durasi %60;
             jambi = durasi / 60;
             biaya = (jamAwal * 100000) + 100000;
@@ -197,58 +209,105 @@ public class ProjectAdmin {
             } else {
             jam = waktuJam;
             menit = menitKeluar;
-            } 
+            }if(waktuMenit==0){
+                System.out.print("\nKalian masuk pada pukul: " + waktuJam + ":" + waktuMenit+"0");
+            }else{
+                System.out.print("\nKalian masuk pada pukul: " + waktuJam + ":" + waktuMenit);
+            }
             if (menit==0) {
                 System.out.print("\nKalian keluar pukul: " + jam + ":" + menit + "0");
             }else{
                 System.out.print("\nKalian keluar pukul: " + jam + ":" + menit);
                 System.out.println();
                 System.out.println();
-            } 
+            }
+
         }
-        return 0;
+        return biaya;
     }
 
     
 
-    public static void mencetakStruk(String[] hasil) {
+    public static void mencetakStruk(String[] hasil, int indexRuangan, String[] ruanganPengganti, int biaya, String jawaban, int counter, String[][] daftarTransaksi) {
         Scanner sc = new Scanner(System.in);
+        
         System.out.print("\nMasukkan Acara apa yang anda lakukan : ");
-        String keperluan = sc.next();
+        String keperluan = sc.nextLine();
         System.out.print("Masukkan waktu masuk anda kembali (Jam:Menit): ");
-        String verifMasuk = sc.next();
+        String verifMasuk = sc.nextLine();
         System.out.print("Masukkan waktu keluar anda kembali (Jam:Menit): ");
-        String verifKeluar = sc.next();
+        String verifKeluar = sc.nextLine();
+        
+        if(jawaban.equalsIgnoreCase("no")){
+        System.out.println();
+        System.out.print("Masukan tagihan anda: Rp ");
+        String verifBiaya = sc.nextLine();
         System.out.print("=============================================");
-        System.out.print("               STRUK ANDA!!                                                                                                     ");
-        System.out.print("=============================================");
+        System.out.print("\n               STRUK ANDA!!                 ");
+        System.out.print("\n=============================================");
         System.out.print("\nAtas nama : " + hasil[0]);
-        System.out.print("\nMenggunakan ruangan : " + hasil[1]);
+        if (indexRuangan != -1) {
+            System.out.print("\nMenggunakan ruangan : " + ruanganPengganti[indexRuangan]);
+        } else {
+            System.out.print("\nMenggunakan ruangan : " + hasil[1]);
+        }
         System.out.print("\nDalam Rangka : " + keperluan);
         System.out.print("\nAnda masuk pada pukul : " + verifMasuk);
         System.out.print("\nDan akan keluar pada pukul : " + verifKeluar);
+        System.out.print("\nTotal biaya adalah : " + verifBiaya);
         System.out.print("\nSelamat menikmati ruangan :) ");
-        
+
+        daftarTransaksi[counter][0] = hasil[0]; // Simpan nama
+        daftarTransaksi[counter][1] = keperluan; // Simpan keperluan
+        daftarTransaksi[counter][2] = verifMasuk; // Simpan waktu masuk
+        daftarTransaksi[counter][3] = verifKeluar; // Simpan waktu keluar
+        daftarTransaksi[counter][4] = verifBiaya; // Simpan biaya
+        main(ruanganPengganti);
+        }
+        else{
+            System.out.print("=============================================");
+            System.out.print("\n               STRUK ANDA!!                                                                                                     ");
+            System.out.println("=============================================");
+            System.out.print("\nAtas nama : " + hasil[0]);
+            if (indexRuangan != -1) {
+                System.out.print("\nMenggunakan ruangan : " + ruanganPengganti[indexRuangan]);
+            } else {
+                System.out.print("\nMenggunakan ruangan : " + hasil[1]);
+            }
+            System.out.print("\nDalam Rangka : " + keperluan);
+            System.out.print("\nAnda masuk pada pukul : " + verifMasuk);
+            System.out.print("\nDan akan keluar pada pukul : " + verifKeluar);
+            System.out.print("\nSelamat menikmati ruangan :) ");
+            main(ruanganPengganti);
+        }
     }
 
 
-    public static String[] rekomendasiRuangan(String ruangan, String[] hasil) {
-        String[] ruanganPengganti = {"LSI1", "LSI2", "LSI3", "RT04", "RT05", "RT06"};
-        String[] ruanganTerpakai = {"RT01", "RT02", "RT03", "LPY1", "LPY2", "LPY3"};
-
+    public static String[] rekomendasiRuangan(String ruangan, String[] hasil, int biaya, String jawaban, String[] ruanganPengganti, String[] ruanganTerpakai, String ruanganTerpakaiBaru) {
+        
+        int indexRuangan = -1; // Menandai jika ruangan tidak ditemukan
         for (int i = 0; i < ruanganTerpakai.length; i++) {
-            if (ruangan.equals(ruanganTerpakai[i])) {
-                System.out.print("Ruangan sedang dipakai");
+            ruanganTerpakai[i] = ruanganTerpakaiBaru;
+            String cekRuanganTerpakai = ruanganTerpakai[i];
+            if (ruangan.equals(cekRuanganTerpakai)) {
+                System.out.print("\nRuangan sedang dipakai");
                 System.out.print("\nKami pindahkan ke ruangan " + ruanganPengganti[i] + " sebagai ruangan pengganti");
                 System.out.println();
+                indexRuangan = i; 
                 break;
             }
+        }mencetakStruk(hasil, indexRuangan, ruanganPengganti, biaya, jawaban, indexRuangan, null);
+        if (indexRuangan != -1) {
+            ruanganPengganti[indexRuangan] = "Ruangan pengganti yang baru"; // Ganti dengan logika yang sesuai
+            mencetakStruk(hasil, indexRuangan, ruanganPengganti, biaya, jawaban, indexRuangan, null);
+        } else {
+            mencetakStruk(hasil, indexRuangan, ruanganPengganti, biaya, jawaban, indexRuangan, null);
         }
+    
         return ruanganPengganti;
-        
     }
 
-    public static void adminFunction(String[] ruanganPengganti, String[] ruanganTerpakai) {
+    public static void adminFunction(String[] ruanganPengganti, String[] ruanganTerpakai, String[] hasil, int counter, String[][] daftarTransaksi, Scanner sc) {
         Scanner scanner = new Scanner(System.in);
         boolean returnToMain = true;
     
@@ -256,7 +315,8 @@ public class ProjectAdmin {
             System.out.println("\n-- Admin Menu --");
             System.out.println("1. Set Ruangan Terpakai");
             System.out.println("2. Set Ruangan Pengganti");
-            System.out.println("3. Kembali ke Menu Login/Keluar Aplikasi");
+            System.out.println("3. Daftar Riwayat Transaksi");
+            System.out.println("4. Kembali ke Menu Login/Keluar Aplikasi ");
             System.out.println("------------------------------");
             int adminChoice = scanner.nextInt();
             scanner.nextLine();
@@ -277,6 +337,9 @@ public class ProjectAdmin {
                             if (ruanganTerpakai[i] == null) {
                                 ruanganTerpakai[i] = ruanganTerpakaiBaru;
                                 System.out.println("Ruangan " + ruanganTerpakaiBaru + " telah ditandai sebagai terpakai.");
+    
+                                // Memanggil rekomendasiRuangan untuk memperbarui ruanganPengganti
+
                                 break;
                             }
                         }
@@ -307,8 +370,16 @@ public class ProjectAdmin {
                         System.out.println("Ruangan sudah ada dalam daftar ruangan pengganti sebelumnya.");
                     }
                     break;
-    
                 case 3:
+                System.out.println("Daftar Riwayat Transaksi:");
+                for (int i = counter; i < counter; i++) {
+                    for (int j = 0; j < daftarTransaksi[i].length; j++) {
+                    System.out.print(daftarTransaksi[i][j] + "|");
+                    }
+                    System.out.println();
+                }
+                break;
+                case 4:
                     System.out.println("Mau yang mana? (login/exit)");
                     Scanner input = new Scanner(System.in);
                     String answer = input.next();
@@ -329,4 +400,19 @@ public class ProjectAdmin {
     
         scanner.close();
     }
+    /* 
+    public static void pemindahanRuangan(String[] ruanganPengganti, String[] ruanganTerpakai, String ruangan, String []hasil){
+        for (int i = 0; i < ruanganTerpakai.length; i++) {
+            String cekRuanganTerpakai = ruanganTerpakai[i];
+            if (ruangan.equals(cekRuanganTerpakai)) {
+                System.out.print("\nRuangan sedang dipakai");
+                System.out.print("\nKami pindahkan ke ruangan " + ruanganPengganti[i] + " sebagai ruangan pengganti");
+                System.out.println();
+                break;
+            }else{
+                System.out.println("OI");
+            }
+        }rekomendasiRuangan(ruangan, hasil);
+    }
+    */
 }
